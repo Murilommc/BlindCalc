@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BlindCalc - Calculadora Acessível</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <main class="calculadora">
+        <div id="visor" class="visor" aria-live="polite">0</div>
+
+        <div class="botoes-grid">
+            <button class="operador">C</button>
+            <button class="operador">/</button>
+            <button class="operador">*</button>
+            <button class="operador">-</button>
+
+            <button>7</button>
+            <button>8</button>
+            <button>9</button>
+            <button class="operador">+</button>
+
+            <button>4</button>
+            <button>5</button>
+            <button>6</button>
+
+            <button id="botao-igual" class="operador">=</button>
+
+            <button>1</button>
+            <button>2</button>
+            <button>3</button>
+            
+            <button id="botao-zero">0</button>
+            <button id="botao-ponto">.</button>
+            <button id="botao-microfone">🎤</button>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
