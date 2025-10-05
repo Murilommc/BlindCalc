@@ -1,0 +1,91 @@
+/* Configurações gerais para a página inteira */
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* 100% da altura da tela */
+    margin: 0;
+    background-color: #222; /* Fundo cinza escuro */
+    font-family: sans-serif;
+}
+
+/* O container principal da calculadora */
+.calculadora {
+    width: 350px;
+    background-color: #000; /* Fundo preto */
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.5);
+}
+
+/* O visor da calculadora */
+.visor {
+    width: 100%;
+    height: 80px;
+    background-color: #333;
+    color: #FFF; /* Texto branco */
+    font-size: 3rem; /* Tamanho da fonte bem grande */
+    text-align: right;
+    padding: 20px;
+    box-sizing: border-box; /* Garante que o padding não aumente o tamanho */
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+/* A grade que segura todos os botões */
+.botoes-grid {
+    display: grid;
+    /* 4 colunas de tamanho igual */
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px; /* Espaçamento entre os botões */
+}
+
+/* Estilo para TODOS os botões */
+button {
+    height: 70px;
+    border: none;
+    border-radius: 10px;
+    font-size: 1.5rem;
+    cursor: pointer; /* Muda o cursor para uma "mãozinha" */
+    background-color: #555;
+    color: #FFF;
+    transition: background-color 0.2s; /* Animação suave na cor */
+}
+
+/* Estilo para os botões de operação (cor diferente) */
+.operador {
+    background-color: #FF9500; /* Laranja */
+}
+
+/* Estilo para o botão de igual (que ocupa 2 linhas) */
+#botao-igual {
+    /* Começa na linha 4 e ocupa 2 linhas */
+    grid-row: span 2;
+}
+
+/* Estilo para o botão zero (que ocupa 2 colunas) */
+#botao-zero {
+    /* Começa na coluna 1 e ocupa 2 colunas */
+    grid-column: span 2;
+}
+
+/* --- Efeitos de Interação e Acessibilidade --- */
+
+/* Quando o mouse passa por cima do botão */
+button:hover {
+    background-color: #777;
+}
+
+.operador:hover {
+    background-color: #ffaf40;
+}
+
+/* Quando o botão é pressionado */
+button:active {
+    background-color: #999;
+}
+
+/* Quando o botão está focado pela navegação com teclado (IMPORTANTE!) */
+button:focus {
+    outline: 3px solid #00BFFF; /* Contorno azul brilhante */
+}
