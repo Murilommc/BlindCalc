@@ -155,11 +155,12 @@ document.addEventListener('DOMContentLoaded', () => {
             atualizarVisor();
 
         } catch (error) {
-            falar('Não foi possível calcular. Tente dizer "cinco mais três".');
+            falar('Não consegui entender. Tente novamente.');
             console.error('Voice command processing error:', error);
         }
     }
 
     const gridBotoes = document.querySelector('.botoes-grid');
     gridBotoes.addEventListener('click', lidarComClique);
+
 });
