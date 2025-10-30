@@ -4,38 +4,40 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BlindCalc - Calculadora Acessível</title>
-
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
     <main class="calculadora">
-        <div id="visor" class="visor" aria-live="polite">0</div>
+        <div id="visor" class="visor">0</div>
 
         <div class="botoes-grid">
-            <button class="operador">C</button>
-            <button class="operador">/</button>
-            <button class="operador">*</button>
-            <button class="operador">-</button>
+            <button class="operador" id="botao-limpar" aria-label="Limpar tudo">C</button>
+            <button class="operador-secundario" id="botao-apagar" aria-label="Apagar último dígito">←</button>
+            <button class="operador-secundario" id="botao-potencia" aria-label="Elevado a">xʸ</button>
+            <button class="operador-secundario" id="botao-raiz" aria-label="Raiz quadrada">√</button>
 
             <button>7</button>
             <button>8</button>
             <button>9</button>
-            <button class="operador">+</button>
+            <button class="operador" id="botao-dividir" aria-label="Dividido por">/</button>
 
             <button>4</button>
             <button>5</button>
             <button>6</button>
-
-            <button id="botao-igual" class="operador">=</button>
-
+            <button class="operador" id="botao-multiplicar" aria-label="Vezes">*</button>
+            
             <button>1</button>
             <button>2</button>
             <button>3</button>
-            
+            <button class="operador" id="botao-subtrair" aria-label="Menos">-</button>
+
             <button id="botao-zero">0</button>
-            <button id="botao-ponto">.</button>
-            <button id="botao-microfone">🎤</button>
+            <button id="botao-ponto" aria-label="Ponto">.</button>
+            <button class="operador" id="botao-igual" aria-label="Igual">=</button>
+            <button class="operador" id="botao-adicionar" aria-label="Mais">+</button>
+
+            <button id="botao-microfone" aria-label="Ativar comando de voz">🎤</button>
         </div>
     </main>
 
