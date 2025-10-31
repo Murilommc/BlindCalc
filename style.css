@@ -57,17 +57,9 @@ button {
     background-color: #FF9500; /* Laranja */
 }
 
-/* Estilo para o botão de igual (que ocupa 2 linhas) */
-#botao-igual {
-    /* Começa na linha 4 e ocupa 2 linhas */
-    grid-row: span 2;
-}
-
-/* Estilo para o botão zero (que ocupa 2 colunas) */
-#botao-zero {
-    /* Começa na coluna 1 e ocupa 2 colunas */
-    grid-column: span 2;
-}
+/* REMOVIDO: Regras de span para #botao-igual e #botao-zero 
+   para criar um grid uniforme 4x5
+*/
 
 /* --- Efeitos de Interação e Acessibilidade --- */
 
@@ -88,4 +80,22 @@ button:active {
 /* Quando o botão está focado pela navegação com teclado (IMPORTANTE!) */
 button:focus {
     outline: 3px solid #00BFFF; /* Contorno azul brilhante */
+}
+
+/* --- ADICIONADO: Feedback visual para microfone ativo --- */
+
+#botao-microfone.ouvindo {
+    background-color: #E63946; /* Vermelho para indicar gravação */
+    animation: pulsar 1s infinite alternate;
+}
+
+@keyframes pulsar {
+    from {
+        transform: scale(1);
+        box-shadow: 0 0 5px #E63946;
+    }
+    to {
+        transform: scale(1.05);
+        box-shadow: 0 0 15px #E63946;
+    }
 }
