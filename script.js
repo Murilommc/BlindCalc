@@ -1,4 +1,4 @@
-// CÓDIGO COMPLETO E FINAL (v.4 - Correção do bug de milhar)
+// CÓDIGO ATUALIZADO (v.5 - Funções de Raiz/Quadrado e Melhorias de Acessibilidade)
 
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -12,7 +12,15 @@ document.addEventListener('DOMContentLoaded', () => {
     let esperandoNovoNumero = false;
 
     function atualizarVisor() {
-        visor.textContent = valorAtual;
+        // Formata números muito longos para notação científica
+        if (valorAtual.length > 10 && valorAtual.includes("e")) {
+             visor.textContent = parseFloat(valorAtual).toExponential(4);
+        } else if (valorAtual.length > 10) {
+            // Limita a exibição de decimais longos
+            visor.textContent = parseFloat(valorAtual).toPrecision(7);
+        } else {
+            visor.textContent = valorAtual;
+        }
     }
 
     function falar(texto) {
@@ -54,6 +62,27 @@ document.addEventListener('DOMContentLoaded', () => {
             esperandoNovoNumero = false;
             falar('limpo');
         }
+        // --- ADICIONADO: Lógica para Raiz Quadrada ---
+        else if (valorBotao === '√') {
+            const num = parseFloat(valorAtual);
+            if (num < 0) {
+                valorAtual = 'Erro';
+                falar('Erro, raiz de número negativo');
+            } else {
+                const resultado = Math.sqrt(num);
+                valorAtual = String(resultado);
+                falar(`raiz quadrada de ${num} igual a ${resultado}`);
+            }
+            esperandoNovoNumero = true; // Permite iniciar novo número após operação
+        }
+        // --- ADICIONADO: Lógica para Elevar ao Quadrado ---
+        else if (valorBotao === 'x²') {
+            const num = parseFloat(valorAtual);
+            const resultado = num * num;
+            valorAtual = String(resultado);
+            falar(`${num} ao quadrado igual a ${resultado}`);
+            esperandoNovoNumero = true; // Permite iniciar novo número após operação
+        }
         else if (valorBotao === '=') {
             if (operador && valorAnterior !== null) {
                 const resultado = calcular();
@@ -64,6 +93,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
         else { 
+            // Botões de operação (+, -, *, /)
             if (operador && !esperandoNovoNumero) {
                 const resultado = calcular();
                 valorAtual = String(resultado);
@@ -112,8 +142,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
         botaoMicrofone.addEventListener('click', () => {
             falar('Ouvindo');
+            // --- ADICIONADO: Feedback visual e de acessibilidade ---
+            botaoMicrofone.classList.add('ouvindo');
+            botaoMicrofone.setAttribute('aria-label', 'Ouvindo... Pare de falar para processar.');
             recognition.start();
         });
+
+        // --- ADICIONADO: Limpa o feedback quando a escuta termina ---
+        recognition.onend = () => {
+            botaoMicrofone.classList.remove('ouvindo');
+            botaoMicrofone.setAttribute('aria-label', 'Gravar comando de voz');
+        };
 
         recognition.onresult = (evento) => {
             const transcricao = evento.results[0][0].transcript;
@@ -131,10 +170,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function processarComandoDeVoz(comando) {
         try {
-            // --- PARTE MODIFICADA PARA CORRIGIR O BUG DE MILHAR ---
+            let comandoFalado = comando.toLowerCase().replace(/x/g, 'vezes');
+
             let expressao = comando.toLowerCase()
-                .replace(/\./g, '') // 1. Remove todos os pontos de milhar (10.000 -> 10000)
-                .replace(/,/g, '.') // 2. Troca a vírgula de decimal pelo ponto (2,5 -> 2.5)
+                // --- PARTE MODIFICADA ---
+                // 1. Tratar "ao quadrado" e "raiz" ANTES de tratar decimais/milhares
+                //    Isso preserva a vírgula do português para estas operações
+                .replace(/(\d+),(\d+) ao quadrado/g, '($1.$2**2)') // "5,2 ao quadrado"
+                .replace(/(\d+) ao quadrado/g, '($1**2)') // "5 ao quadrado"
+                .replace(/raiz de (\d+),(\d+)/g, 'Math.sqrt($1.$2)') // "raiz de 5,2"
+                .replace(/raiz de (\d+)/g, 'Math.sqrt($1)') // "raiz de 5"
+                
+                // 2. Correção do bug de milhar (do código original)
+                .replace(/\./g, '') // Remove todos os pontos de milhar (10.000 -> 10000)
+                .replace(/,/g, '.') // Troca a vírgula de decimal pelo ponto (2,5 -> 2.5)
+
+                // 3. Substituir operadores de texto
                 .replace(/mais/g, '+')
                 .replace(/menos/g, '-')
                 .replace(/vezes/g, '*')
@@ -143,12 +194,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 .replace(/dividido por/g, '/')
                 .replace(/ /g, '');
 
-            const resultado = eval(expressao);
+            // --- SUBSTITUÍDO: eval() por new Function() para mais segurança ---
+            const resultado = new Function('return ' + expressao)();
+
             if (isNaN(resultado) || !isFinite(resultado)) {
                  throw new Error('Cálculo inválido');
             }
-
-            let comandoFalado = comando.toLowerCase().replace(/x/g, 'vezes');
             
             valorAtual = String(resultado);
             falar(`Entendido. ${comandoFalado}, igual a ${resultado}`);
@@ -156,7 +207,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         } catch (error) {
             falar('Não consegui entender. Tente novamente.');
-            console.error('Voice command processing error:', error);
+            console.error('Voice command processing error:', error, "Expressão tentada:", expressao);
         }
     }
 
