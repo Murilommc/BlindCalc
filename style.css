@@ -37,14 +37,12 @@ body {
     display: grid;
     /* 4 colunas de tamanho igual */
     grid-template-columns: repeat(4, 1fr);
-    /* 6 linhas de tamanho igual */
-    grid-template-rows: repeat(6, 70px);
     gap: 10px; /* Espaçamento entre os botões */
 }
 
 /* Estilo para TODOS os botões */
 button {
-    /* Altura removida daqui, pois foi definida no grid */
+    height: 70px;
     border: none;
     border-radius: 10px;
     font-size: 1.5rem;
@@ -59,20 +57,16 @@ button {
     background-color: #FF9500; /* Laranja */
 }
 
-/* Estilo para operadores secundários (novos) */
-.operador-secundario {
-    background-color: #888;
+/* Estilo para o botão de igual (que ocupa 2 linhas) */
+#botao-igual {
+    /* Começa na linha 4 e ocupa 2 linhas */
+    grid-row: span 2;
 }
 
 /* Estilo para o botão zero (que ocupa 2 colunas) */
 #botao-zero {
+    /* Começa na coluna 1 e ocupa 2 colunas */
     grid-column: span 2;
-}
-
-/* Estilo para o botão de microfone (que ocupa 4 colunas) */
-#botao-microfone {
-    grid-column: span 4;
-    background-color: #007BFF; /* Destaque azul */
 }
 
 /* --- Efeitos de Interação e Acessibilidade --- */
@@ -84,14 +78,6 @@ button:hover {
 
 .operador:hover {
     background-color: #ffaf40;
-}
-
-.operador-secundario:hover {
-    background-color: #aaa;
-}
-
-#botao-microfone:hover {
-    background-color: #009cff;
 }
 
 /* Quando o botão é pressionado */
